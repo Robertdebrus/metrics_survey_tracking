@@ -1,0 +1,4 @@
+-@function.each do |f|
+    %h2{:style => "line-height:0em;"} Function #{f.id}
+    %pre
+        %code.language-java.function= f.text.gsub('<nl>', "\n").gsub('<t>', "\t")

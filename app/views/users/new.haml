@@ -1,0 +1,49 @@
+#basic_page
+    =link_to "Back", root_path
+    %br
+    %br
+    #informed_consent{:style => "height:50%; width: 90%; margin: auto; overflow:scroll; outline: solid thin; padding: 20px; box-sizing: border-box;"}
+        %h2{style:"text-align:center"} Informed Consent Form - Please Read
+        %h3 Purpose of the Study:
+        %p This is a study in computer science conducted by Zachary Eberhart, PhD student in the University of Notre Dame. The purpose of this study is to collect data regarding how programmers the quality of source code comments.
+
+        %h3 What will be done:
+        %p You will:
+        %ol
+            %li Create an account on our web interface.
+            %li Rate and compare source code comments until the previously agreed-upon time/function quota has been met.
+            
+        %h3 Benefits of this Study:
+        %p You will be contributing to knowledge of software engineering. In addition, you will be compensated for your time at a previously agreed-upon rate.
+
+        %h3 Risks or discomforts:
+        %p No risks or discomforts are anticipated from taking part in this study. If you are unable to comlete the study in one sitting, you may exit the session and resume at a later time using your submitted account information. If you feel uncomfortable about this study, you can withdraw from the study. 
+
+        %h3 Confidentiality:
+        %p Your results and identity will be kept completely confidential. We will ask you to register using an email address so that you can resume the study if you log out. The password you provide will be encrypted. We may communicate with you at the provided email address only to coordinate study and payment information. Once the study has been completed, your contact information will be purged from our database. Your contact information will be given to no 3rd parties.
+
+        %h3 Decision to quit at any time:
+        %p Your participation is voluntary; you are free to withdraw your participation from this study at any time. If you do not want to continue, you can simply exit the web interface. 
+
+        %h3 How the findings will be used:
+        %p The results of the study will be used for scholarly purposes only. The results from the study will be presented in educational settings and at professional conferences, and the results might be published in a professional journal in the field of computer science.
+
+        %h3 Contact information:
+        %p If you have concerns or questions about this study, please contact 
+        %p Researcher: Zachary Eberhart at zeberhar@nd.edu.
+        %p Institutional Review Board: http://or.nd.edu/research-compliance/human-subjects-research/institutional-review-board-irb/
+        %p Office of Research Compliance: compliance@nd.edu or call (574) 631-1389
+    %br 
+    %p{:style => "width: 90%;"} By clicking "Submit" you acknowledge that you have read this information and agree to participate in this research, with the knowledge that you are free to withdraw your participation at any time without penalty, that you understand the study described above, and that you are 18 years of age or older. 
+    %br
+    %div{style:"width:initial; margin:auto; outline: solid thin; padding: 20px; box-sizing: border-box;"}
+        = form_for :user, :url => signup_path do |f|
+            = f.label :email
+            = f.text_field :email
+            = f.label :password
+            = f.password_field :password
+            = f.label :password_confirmation, "Confirm Password"
+            = f.password_field :password_confirmation
+            = f.label :group
+            = f.number_field :group
+            = submit_tag "Submit"

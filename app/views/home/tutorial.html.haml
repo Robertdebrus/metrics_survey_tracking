@@ -1,0 +1,334 @@
+%br
+#tutorial{:style => "width:100%; display: block; margin: auto; padding:20px; box-sizing: border-box;"}
+    %h1 Java Comment-Rating Study - Instructions
+    %h2 Please read through before beginning. You may return to this page at any time.
+    %hr
+    %br
+    #stuff{:style => "box-sizing: border-box; width:100%; background-color: white !important; padding:10px 10%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 5px;"}
+        %h2 Introduction
+        %p Hello, and welcome to our Java comment-rating study! The purpose of this study is to learn how programmers perceive the quality of source code comments.
+
+        %p Your job will consist of two alternating phases: 
+
+        %p In the first phase, you will be shown the source code for a Java function, as well as a source code comment describing that function. You will carefully read the comment in the context of that function, and rate the quality of the comment in terms of three criteria. We will explain how to judge these criteria in the following section.
+
+        %p In the second phase, you will be shown the same function and comment, as well as an additional comment. You will carefully read both comments, and then rate the similarity between the two comments. We will also explain how to make this determination in the following section.
+
+        %br
+
+        %h2 Guidelines
+        %p This section provides instructions for determining ratings for the source code comments. Your ratings will indicate your level of agreement with statements about the comment's quality. You will be able to select from the following options: "Strongly Disagree," "Disagree," "Agree," and "Strongly Agree." We provide examples of comments that might earn certain ratings, but do not provide specific instructions for differentiating between different tiers of agreement. It is ultimately up to you to determine your level of agreement with each statement. 
+
+        %p The examples refer to the following function:
+
+        %pre
+            %code.language-java.function="public int compareTo(final FCAElementImplementation other){\n\treturn this.contextPosition - other.contextPosition;\n}" 
+
+        %h3 Statement 1: Independent of other factors, I feel that the summary is accurate.
+        %p A comment is considered "accurate" if its description of the function is factually correct, and "inaccurate" if the description is false. Even if the comment fails to mention key information about the function (such as important functionality, usage scenarios, constraints, etc.), as long as the information that is stated is clearly correct, it is considered to be accurate. 
+        %p{:style=>"text-decoration: underline"} Examples:
+        %ul
+            %li
+                %strong{:style=>"color:#000890"} Strongly Agree
+                %ul
+                    %li
+                        "returns an int"
+            %li
+                %strong{:style=>"color:#486078"} Agree
+                %ul
+                    %li  "the value returned is crucial to the next stage in the pipeline"
+                    
+                %strong{:style=>"color:#786040;"} Disagree
+                %ul  
+                    %li "returns the element with the higher position"
+            %li
+                %strong{:style=>"color:#800000"} Strongly Disagree
+                %ul
+                    %li "searches for element with the most children and prints its name"
+        / %ul
+        /     %li
+        /         %strong{:style=>"color:#000890"} Strongly Agree
+        /         %ul
+        /             %li
+        /                 "Calculates the difference between this object's position and another FCAElementImplementation."
+        /             %li
+        /                 "Compares this object's contextPosition with another object's contextPosition."
+        /             %li
+        /                 "Returns an int"
+        /     %li
+        /         %strong{:style=>"color:#486078"} Agree
+        /         %ul
+        /             %li
+        /                 "Compares objects."
+        /             %li
+        /                 "Determines which FCAElementImplementation's position is lower." 
+        /             %li
+        /                 "Currently returns a simple placeholder value. We might want to implement a more appropriate metric." 
+        /             %li
+        /                 "Deprecated."
+        /     %li
+        /         %strong{:style=>"color:#786040;"} Disagree
+        /         %ul
+        /             %li
+        /                 "Searches for the FCAElementImplementation with the lowest position"
+        /             %li
+        /                 "Determines whether we should keep the current FCAElementImplementation or replace with 'other'."
+        /             %li
+        /                 "Performs a detailed analysis characterizing the similarities and differences between this object and object 'other,' with an emphasis on object position."
+        /     %li
+        /         %strong{:style=>"color:#800000"} Strongly Disagree
+        /         %ul
+        /             %li
+        /                 "Prints a summary comparing this object to another FCAElementImplementation"
+        /             %li
+        /                 "Compares this object's contextPosition with another object's contextPosition, and then deletes both objects."
+        /             %li
+        /                 "Unimplemented."
+
+        %h3 Statement 2: The summary is missing important information, and that can hinder the understanding of the method.
+        %p Important information helps a user to understand when, why, and how to implement the function. If you can comprehend the function by simply reading the signature and skimming over the source code without even reading the comment, then the comment may not need to elaborate much; however, if the purpose, functionality, or intended usage of a function are unclear from the code itself, then that would be considered "important" information for the comment to contain. A comment can contain all important information about a function, even if it contains some incorrect or unnecessary information.
+
+        %p{:style=>"text-decoration: underline"} Examples:
+        %ul
+            %li
+                %strong{:style=>"color:#000890"} Strongly Agree
+                %ul
+                    %li
+                        "we should really use a better metric"
+                       
+            %li
+                %strong{:style=>"color:#486078"} Agree
+                %ul
+                    %li
+                        "returns an int comparing the two objects"
+                %strong{:style=>"color:#786040;"} Disagree
+                %ul
+                    %li
+                        "compares s object contextpositions"
+            %li
+                %strong{:style=>"color:#800000"} Strongly Disagree
+                %ul
+                    %li
+                        "returns the distance to another element position in the queue"
+        / %ul
+        /     %li
+        /         %strong{:style=>"color:#000890"} Strongly Agree
+        /         %ul
+        /             %li
+        /                 "Calculates the difference between this object's position and another FCAElementImplementation."
+        /             %li
+        /                 "Calculates the difference between this object's position and another FCAElementImplementation, and prints a summary comparing this object to another FCAElementImplementation"
+        /             %li
+        /                 "Returns the distance between this object's contextPosition and object "other". We should really consider using another metric, though.
+        /     %li
+        /         %strong{:style=>"color:#486078"} Agree
+        /         %ul
+        /             %li
+        /                 "Compares this object's contextPosition to another FCAElementImplementation."
+                   
+        /             %li
+        /                 "Performs a detailed analysis characterizing the similarities and differences between this object and object 'other', and returns an int representing the distance between the two objects"
+                   
+        /             %li
+        /                 "This function isn't used in the actual system, but for some reason, it needs to be called directly before 'printSummary' with a "null" argument to make sure the tests pass.
+        /     %li
+        /         %strong{:style=>"color:#786040;"} Disagree
+        /         %ul
+        /             %li 
+        /                 "Compares objects."
+        /             %li
+        /                 "Arguments: final FCAElementImplementation other. Returns: int." 
+        /             %li
+        /                 "Looks at currentPosition to help us figure out which object we should use in the final simulation." 
+        /             %li
+        /                 "Even though FCAElements actually exist in 2-dimensional space, it makes sense to consider their contextPositions for the purposes of a basic comparison." 
+        /     %li
+        /         %strong{:style=>"color:#800000"} Strongly Disagree
+        /         %ul
+        /             %li
+        /                 "Deprecated."
+        /             %li
+        /                 "Unimplemented."
+        /             %li
+        /                 "Prints a summary comparing this object to another FCAElementImplementation"
+        /             %li
+        /                 "Even though an FCAElement's position can only move along one axis, it is positioned in 2-dimensional space. When comparing FCAElementImplementation objects, we must keep in mind that their positions are not affected by other object types."
+        /             %li
+        /                 "We really need to implement a more appropriate metric."
+
+        %h3 Statement: The summary contains a lot of unnecessary information.
+        %p "Unnecessary" pieces of information are ones that do not help the reader comprehend the source code; for instance, information that is unrelated, redundant, tangential, or overly-specific.
+        %p{:style=>"text-decoration: underline"} Examples:
+        %ul
+            %li
+                %strong{:style=>"color:#000890"} Strongly Agree
+                %ul
+                    %li
+                        "compares elements created by a generator to help determine which one should be discarded in a later phase" 
+                    
+            %li
+                %strong{:style=>"color:#486078"} Agree
+                %ul
+                    %li
+                        "the purpose of this function is to calculate element distance and then return that distance as an int" 
+
+            %li
+                %strong{:style=>"color:#786040;"} Disagree
+                %ul
+                    %li
+                        "this function compares elements by calculating the distance between their positions" 
+            %li
+                %strong{:style=>"color:#800000"} Strongly Disagree
+                %ul
+                    %li
+                        "returns the distance between elements"
+
+        %h3 Statement: These two comments are similar. 
+        %p Two comments are "similar" if they convey the same information with the same general structure, and "dissimilar" if the convey different information with different structures.
+        %p{:style=>"text-decoration: underline"} Examples:
+        %ul
+            %li
+                %strong{:style=>"color:#000890"} Strongly Agree
+                %ul
+                    %li
+                        "calculates the difference between the current position and the position of another element" and "returns the distance between this element's position and another element's position"
+            %li
+                %strong{:style=>"color:#486078"} Agree
+                %ul
+                    %li
+                        "calculates the difference between the current position and the position of another element" and "this function compares two elements by taking both of their positions and returning the distance between them"
+            %li
+                %strong{:style=>"color:#786040;"} Disagree
+                %ul
+                    %li
+                        "calculates the difference between the current position and the position of another element" and "determines which element has a lower current position"  
+            %li
+                %strong{:style=>"color:#800000"} Strongly Disagree
+                %ul
+                    %li
+                        "calculates the difference between the current position and the position of another element" and "callback that runs whenever a new element is created"
+
+        / %h3 Accuracy
+        / %p A comment is considered "accurate" if its description of the function is factually correct, and "inaccurate" if the description is false. Even if the comment fails to mention key information about the function (such as important functionality, usage scenarios, constraints, etc.), as long as the information that is stated is clearly correct, it is considered to be accurate. 
+        / %p{:style=>"text-decoration: underline"} How to determine rating:
+        / %ol
+        /     %li{:style=>"color:#000890"} "Strongly Agree"
+        /     %ul
+        /         %li When: the comment consists entirely of information that is clearly, obviously accurate. 
+        /         %li Example: 
+        /     %li{:style=>"color:#486078"} "Agree" 
+        /     %ul
+        /         %li When: the comment consists primarily of information that appears to be accurate, but contains some information which is not clearly accurate or inaccurate (either because it is unrelated to the function, difficult to parse, open to interpretation or subjective, or seems otherwise unverifiable)
+        /         %li Example: 
+        /     %li{:style=>"color:#505050"} "Neutral"
+        /     %ul
+        /         %li When: the comment consists primarily of information which is not clearly accurate or inaccurate (either because it is unrelated to the function, difficult to parse, open to interpretation or subjective, or seems otherwise unverifiable), but does not contain any information that appears to incorrect.
+        /         %li Example: 
+        /     %li{:style=>"color:#786040;"} "Disagree" 
+        /     %ul
+        /         %li When: the comment contains some information which appears to be inaccurate,
+        /         %li Example: 
+        /     %li{:style=>"color:#800000"} "Strongly Disagree" 
+        /     %ul
+        /         %li When: the comment consist primarily of information that is or appears to be inaccurate. 
+        /         %li Example: 
+
+        / %h3 Adequacy
+        / %p A comment is considered "adequate" if its description of the function is not missing any important information, and "inadequate" if it is missing important information that can hinder the understanding of the function. Even if some information is inaccurate, as long as it detailed enough for a user to understand when, why, and how to implement the function, it is considered to be adequate.
+
+        / %p{:style=>"text-decoration: underline"} How to determine rating:
+        / %ol
+        /     %li{:style=>"color:#000890"} "Strongly Agree"
+        /     %ul
+        /         %li When: the comment consists entirely of information that is clearly, obviously accurate. 
+        /         %li Example: 
+        /     %li{:style=>"color:#486078"} "Agree" 
+        /     %ul
+        /         %li When: the comment consists primarily of information that appears to be accurate, but contains some information which is not clearly accurate or inaccurate (either because it is unrelated to the function, difficult to parse, open to interpretation or subjective, or seems otherwise unverifiable)
+        /         %li Example: 
+        /     %li{:style=>"color:#505050"} "Neutral"
+        /     %ul
+        /         %li When: the comment consists primarily of information which is not clearly accurate or inaccurate (either because it is unrelated to the function, difficult to parse, open to interpretation or subjective, or seems otherwise unverifiable), but does not contain any information that appears to incorrect.
+        /         %li Example: 
+        /     %li{:style=>"color:#786040;"} "Disagree" 
+        /     %ul
+        /         %li When: the comment contains some information which appears to be inaccurate,
+        /         %li Example: 
+        /     %li{:style=>"color:#800000"} "Strongly Disagree" 
+        /     %ul
+        /         %li When: the comment consist primarily of information that is or appears to be inaccurate. 
+        /         %li Example: 
+
+        / %h3 Conciseness
+        / %p A comment is considered "concise" if its description of the function does not contain unnecessary information, and not concise if it contains a lot of unneccary information. "Unnecessary" information is information that does not help the reader comprehend the source code (regardless of the accuracy of the information); for instance, information that is totally unrelated, redundant, tangential, or overly-specific.
+        / %p{:style=>"text-decoration: underline"} How to determine rating:
+        / %ol
+        /     %li{:style=>"color:#000890"} "Strongly Agree"
+        /     %ul
+        /         %li When: all information converyed in the comment strongly assists with source code comprehension
+        /         %li Example: 
+        /     %li{:style=>"color:#486078"} "Agree" 
+        /     %ul
+        /         %li When: if the comment consists primarily of information that appears to be accurate, but contains some information which is not clearly accurate or inaccurate (either because it is unrelated to the function, difficult to parse, open to interpretation or subjective, or seems otherwise unverifiable)
+        /         %li Example: 
+        /     %li{:style=>"color:#505050"} "Neutral"
+        /     %ul
+        /         %li When: if the comment consists primarily of information which is not clearly accurate or inaccurate (either because it is unrelated to the function, difficult to parse, open to interpretation or subjective, or seems otherwise unverifiable), but does not contain any information that appears to incorrect.
+        /         %li Example: 
+        /     %li{:style=>"color:#786040;"} "Disagree" 
+        /     %ul
+        /         %li When: if the comment contains some information which appears to be inaccurate,
+        /         %li Example: 
+        /     %li{:style=>"color:#800000"} "Strongly Disagree" 
+        /     %ul
+        /         %li When: the comment consist primarily of information that is or appears to be inaccurate. 
+        /         %li Example: 
+
+
+        / %h3 Similarity
+        / %p Two comments are "similar" if they convey the same information with the same general structure, and "dissimilar" if the convey different information with different structures.
+        / %p{:style=>"text-decoration: underline"} How to determine rating:
+        / %ol
+        /     %li{:style=>"color:#000890"} "Strongly Agree"
+        /     %ul
+        /         %li When: the comment consists entirely of information that is clearly, obviously accurate. 
+        /         %li Example: 
+        /     %li{:style=>"color:#486078"} "Agree" 
+        /     %ul
+        /         %li When: the comment consists primarily of information that appears to be accurate, but contains some information which is not clearly accurate or inaccurate (either because it is unrelated to the function, difficult to parse, open to interpretation or subjective, or seems otherwise unverifiable)
+        /         %li Example: 
+        /     %li{:style=>"color:#505050"} "Neutral"
+        /     %ul
+        /         %li When: the comment consists primarily of information which is not clearly accurate or inaccurate (either because it is unrelated to the function, difficult to parse, open to interpretation or subjective, or seems otherwise unverifiable), but does not contain any information that appears to incorrect.
+        /         %li Example: 
+        /     %li{:style=>"color:#786040;"} "Disagree" 
+        /     %ul
+        /         %li When: the comment contains some information which appears to be inaccurate,
+        /         %li Example: 
+        /     %li{:style=>"color:#800000"} "Strongly Disagree" 
+        /     %ul
+        /         %li When: the comment consist primarily of information that is or appears to be inaccurate. 
+        /         %li Example: 
+
+        %br
+
+        %h2 Other Instructions/Notes
+        
+        %ul
+            %li
+                %p Some functions and comments may take longer than others to read, comprehend, and rate. A typical pace is 1-1.5 minutes per function. It is important that you take a moment to comprehend what each function actually appears to be doing, as some comments may include correct keywords but incorrectly describe the key functionality. 
+            %li
+                %p After you've completed your first 15 comments or so, please check your pace -- if you have taken greater than 25 minutes or less than 10 minutes, consider spending more or less time on each function.
+            %li
+                %p Stop working if you begin to feel fatigued. You may take a short break and continue, or resume at another time. Do not work for more than 90 minutes without taking at least a 10-minute break.
+            %li
+                %p Some comments will be gramatically-incorrect, contain placeholder tokens, or mention classes, concepts, or other elements that are not present in the code itself. Nevertheless, do your best to evaluate the text as shown. 
+            %li
+                %p You may return to this page at any time to view the examples, but don't spend too much time trying to iron out small distinctions -- when in doubt, go with your gut feeling.
+
+        Your work will be used by software engineering researchers to better understand the language used in source code comments. Thank you very much for your participation in this study!
+
+
+        %h2{:style => "text-align:center; color: #a360d3;"}=link_to "Continue to study", :experiment
+        %br
+        %br

@@ -1,0 +1,10 @@
+#basic_page
+    .center_content
+        %pre{:style=>"max-width:75%;"}
+            %code.function 
+                = "public void thanks(){\n\tSystem.out.println(\"Thank you!\"\n\t\t+ \"You have successfully completed all of the tasks.\"\n\t\t+ \"Please contact the study coordinators.\");\n}"
+        %br
+        %br
+        .smallbox
+            %div
+                = link_to "Logout", :logout, :method => :delete

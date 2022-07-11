@@ -1,0 +1,104 @@
+= javascript_pack_tag 'gaze_data'
+
+#content
+    .nicebox
+        #main_content
+            #instructions
+                #div{:style=>"display: flex; flex-direction:row; "}
+                    #div{:style=>"flex:1; text-align:left"}
+                        = link_to "Logout", :logout, :method => :delete
+                    #div{:style=>"flex:1"}
+                        Function #{@user.current_function}/#{Function.all.count}
+                    #div{:style=>"flex:1; text-align:right"}
+                        FID #{@function.fid}
+                =link_to "View Instructions", :tutorial
+            .row
+                .column    
+                    %h2{:style => "line-height:0em"} Function #{@function.name}
+                    %pre{:style=> "width:100%; white-space:break-spaces; display:flex"}
+                        %code.language-java.function= @function.text.gsub('<nl>', "\n").gsub('<t>', "\t")
+                .column  
+                    %h2{:style => "line-height:0em;"} Comment
+                    .comment= @comment.text
+
+                    %br
+                    %hr{:style=>"width:100%"}
+                    %br
+
+                    %div{:style=> "font-size:1.2em; line-spacing:1.2em;"} Please indicate the level to which you agree with the following statements: 
+                    = form_tag
+                    %div{:style=>"width:100%"}
+                    %h3 Independent of other factors, I feel that the summary is accurate.
+                    %table.ratings{:style=>"flex:1"}
+                        %tr
+                            %td.rtd.sd{:style=>"color:#800000"}
+                                = label_tag "accurate_1" do    
+                                    Strongly Disagree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "accurate", 1
+                            %td.rtd.d{:style=>"color:#786040;"}
+                                = label_tag "accurate_2" do    
+                                    Disagree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "accurate", 2
+                            %td.rtd.a{:style=>"color:#486078"}
+                                = label_tag "accurate_3" do    
+                                    Agree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "accurate", 3
+                            
+                            %td.rtd.sa{:style=>"color:#000890"}
+                                = label_tag "accurate_4" do    
+                                    Strongly Agree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "accurate", 4
+                    %h3 The summary is missing important information, and that can hinder the understanding of the method.
+                    %table.ratings
+                        %tr
+                            %td.rtd.sd{:style=>"color:#800000"}
+                                = label_tag "adequate_1" do    
+                                    Strongly Disagree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "adequate", 1
+                            %td.rtd.d{:style=>"color:#786040"}
+                                = label_tag "adequate_2" do    
+                                    Disagree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "adequate", 2
+                            %td.rtd.a{:style=>"color:#486078"}
+                                = label_tag "adequate_3" do    
+                                    Agree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "adequate", 3
+                            %td.rtd.sa{:style=>"color:#000890"}
+                                = label_tag "adequate_4" do    
+                                    Strongly Agree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "adequate", 4
+                    %h3 The summary contains a lot of unnecessary information.
+                    %table.ratings
+                        %tr
+                            %td.rtd.sd{:style=>"color:#800000"}
+                                = label_tag "concise_1" do    
+                                    Strongly Disagree
+                                    %br
+                                    %div{:style=>"padding:5px"}= radio_button_tag "concise", 1
+                            %td.rtd.d{:style=>"color:#786040"}
+                                = label_tag "concise_2" do    
+                                    Disagree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "concise", 2
+                            %td.rtd.a{:style=>"color:#486078"}
+                                = label_tag "concise_3" do    
+                                    Agree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "concise", 3
+                            %td.rtd.sa{:style=>"color:#000890"}
+                                = label_tag "concise_4" do    
+                                    Strongly Agree
+                                    %br
+                                    %div{:style=>"padding:5px"}=radio_button_tag "concise", 4
+                    %br
+                    
+                    %div{:style=>"text-align:right"}= submit_tag "Submit", :id => "submit"
+                            

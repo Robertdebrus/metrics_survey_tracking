@@ -1,0 +1,59 @@
+= javascript_pack_tag 'gaze_data'
+
+#content
+    .nicebox
+        #main_content
+            #instructions
+                #div{:style=>"display: flex; flex-direction:row; "}
+                    #div{:style=>"flex:1; text-align:left"}
+                        = link_to "Logout", :logout, :method => :delete
+                    #div{:style=>"flex:1"}
+                        Function #{@user.current_function}/#{Function.all.count}
+                    #div{:style=>"flex:1; text-align:right"}
+                        FID #{@function.fid}
+                =link_to "View Instructions", :tutorial
+            .row
+                .column
+                    %h2{:style => "line-height:0em;"} Function #{@function.name}
+                    %pre{:style=> "width:100%; white-space:break-spaces; display:flex"}
+                        %code.language-java.function= @function.text.gsub('<nl>', "\n").gsub('<t>', "\t")
+                .column  
+                    %h2{:style => "line-height:0em;"} Comment 1
+                    .comment= @comment1.text
+                    %br
+                    %h2{:style => "line-height:0em;"} Comment 2
+                    .comment= @comment2.text
+                    %br
+                    %hr{:style=>"width:100%"}
+                    %br
+
+                    %div{:style=> "font-size:1.2em; line-spacing:1.2em;"} Please indicate the level to which you agree with the following statement: 
+                    %h3 These two comments are similar. 
+                    = form_tag
+                    %table.ratings{:style=>"padding:10px 0px; color:#000890"}
+                        %tr
+                            %td.rtd.sd{:style=>"color:#800000"}
+                                = label_tag "similarity_1" do    
+                                    Strongly Disagree
+                                    %br
+                                    %div{:style=>"padding:5px"}= radio_button_tag "similarity", "1"
+                            %td.rtd.d{:style=>"color:#786040"}
+                                = label_tag "similarity_2" do    
+                                    Disagree
+                                    %br
+                                    %div{:style=>"padding:5px"}= radio_button_tag "similarity", "2"
+                            %td.rtd.a{:style=>"color:#486078"}
+                                = label_tag "similarity_3" do    
+                                    Agree
+                                    %br
+                                    %div{:style=>"padding:5px"}= radio_button_tag "similarity", "3"
+                            
+                            %td.rtd.sa{:style=>"color:#000890"}
+                                = label_tag "similarity_4" do    
+                                    Strongly Agree
+                                    %br
+                                    %div{:style=>"padding:5px"}= radio_button_tag "similarity", "4"
+                    %br
+                    
+                    %div{:style=>"text-align:right"}= submit_tag "Submit", :id => "submit"
+                            

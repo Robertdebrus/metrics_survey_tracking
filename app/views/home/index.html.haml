@@ -1,0 +1,23 @@
+#basic_page
+    .center_content
+        %pre
+            %code.function 
+                = "public void welcome(){\n\tSystem.out.println(\"Welcome to our Comment-Rating Study!\");\n}"
+        %br
+        %br
+        .smallbox
+            %div
+                %h3{:style=>"margin-top:0px;"} Login
+                = form_for :session, :url => :login do |f|
+                    = f.label :email
+                    = f.text_field :email
+                    %br
+                    %br
+                    = f.label :password
+                    = f.password_field :password
+                    %br
+                    %br
+                    = submit_tag "Submit"
+            %div{:style=>"margin-left:15px; font-size:1.5em"}
+                ="... or" 
+                = link_to "Sign up", signup_url

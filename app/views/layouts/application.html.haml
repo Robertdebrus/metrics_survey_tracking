@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Java Comment Rating
+    = csrf_meta_tags
+    = favicon_link_tag asset_path('favicon.ico')
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag "//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css"
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js'
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js'
+    
+  %body
+    - flash.each do |key, value|
+      - unless flash[key].blank?
+        %p{ :class => "flash #{key}" }= value
+    = yield
+

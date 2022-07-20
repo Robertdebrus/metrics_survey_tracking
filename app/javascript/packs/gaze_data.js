@@ -1,122 +1,71 @@
-function getCoordinates() {
-    // GET
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:8080", true);
-    xhr.onload = function (e) {
-        if (xhr.readyState === 4) {
-            gazeController(xhr.responseText)
-        } else {
-            console.error(xhr.statusText);
-        }
-    };
-    xhr.onerror = function () {
-        console.error(xhr.statusText);
-    };
-    xhr.send(null);
-    
-}
 
 
-function gazeController(idata) {
-    //console.log(idata)
-    try {
-    idata = JSON.parse(idata);
-    
-    
 
-    leye = idata['left_gaze_point'];
-    reye = idata['right_gaze_point'];
-    
-    lx = leye[0];
-    ly = leye[1];
-    rx = reye[0];
-    ry = reye[1];
-    
-    
-    // averages the point between the left and right eye, 
-    // them multiplies the x coordinate by the screen width 
-    // and the y coordinate by the screen's hight, since by 
-    // default the values are a number between 0 and 1, 
-    // where 0,0 is the upper left corner, and 1,1 is the bottom right
+function getWordBoxes(parentElt) {
+    // if the element isn't selected, or does not contain text, exit
+    if (parentElt == undefined || parentElt.nodeName !== '#text') {
+        return null;
+    }
+    // initialize the range
+    var range = document.createRange();
+    // split text on special characters
+    var words = parentElt.textContent.split(/[, \.\)\(_]/g);
+    // if there's no words, exit
+    // otherwise, process the text
+    if (words.length == 0) {
+        return null;
+    }
+    var start = 0;
+    var end = 0;
+    var wordList = [];
+    var j = 0;
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+        end = start + word.length;
+        range.setStart(parentElt, start);
+        range.setEnd(parentElt, end);
+        // not getBoundingClientRect as word could wrap
+        var rects = range.getClientRects();
         
-    x = ((lx + rx) / 2) * screen.width;
-    y = ((ly + ry) / 2) * screen.height;
-    
-    //console.log(x, y);
-    
-    var lookingAt = document.elementFromPoint(x, y);
-    
-    if(lookingAt.tagName == "CODE") {
-        getTextAtPoint(x, y);
+        word = word.replace(/[\n\t\r\\\{\}\(\)"']/g, "");
+        if (word.length > 0) {
+            wordList[j++] = [word, rects];
+        }
+        start = end + 1;
     }
+    // if, after processing the text, there's nothing left, exit 
+    if (wordList.length == 0) {
+        return null;
+    }
+    // otherwise return the array 
+    return wordList;
     
-    } catch (error) {}
 }
 
 
-function getTextAtPoint(x, y) {
-    let range;
-    let textNode;
-    let offset;
+function printElementCoordinates(e) {
+    var rect = element.getBoundingClientRect();   
+    console.log(rect)
+} 
 
+
+
+
+const elements = document.querySelectorAll('div,code');
+console.log(elements)
+
+var wordBoxes = [];
+var i = 0;
+for (element of elements) { 
+    //console.log(element)
+    //printElementCoordinates(element)
+    var box = getWordBoxes(element.childNodes[0])
+    if (box) {
+        wordBoxes[i++] = box
+    }
     
-    if (document.caretRangeFromPoint) {
-        range = document.caretRangeFromPoint(x, y);
-        textNode = range.startContainer;
-        offset = range.startOffset;
-     
-    } else if (document.caretPositionFromPoint) {
-        range = document.caretPositionFromPoint(x, y);
-        textNode = range.offsetNode;
-        offset = range.offset;
-    } else {
-        console.log("[This browser supports neither"
-          + " document.caretRangeFromPoint"
-          + " nor document.caretPositionFromPoint.]");
-        return;
-    }
-    //console.log(textNode);
-    
-    lookingAt = textNode.splitText(offset)
-    
-    if (textNode && textNode.nodeType == 3 && lookingAt.textContent != "") {
-        console.log(lookingAt);
-    }
-    // Only split TEXT_NODEs
-    /*
-    if (textNode && textNode.nodeType == 3) {
-    let replacement = textNode.splitText(offset);
-    let br = document.createElement('br');
-    textNode.parentNode.insertBefore(br, replacement);
-    }
-    */
 }
-
-let paragraphs = document.getElementsByTagName("p");
-for (let i = 0; i < paragraphs.length; i++) {
-  paragraphs[i].addEventListener('click', insertBreakAtPoint, false);
-}
+console.log(wordBoxes);
 
 
-// Accepts an element, and highlights it for a time, after which it returns to its normal color
-function highlight(element) {
-    let defaultBG = element.style.backgroundColor;
-    let defaultTransition = element.style.transition;
-
-    if(defaultBG != "#FDFF47") {
-        element.style.transition = "background 1s";
-        element.style.backgroundColor = "#FDFF47";
-        setTimeout(function()
-        {
-            element.style.backgroundColor = defaultBG;
-            setTimeout(function() {
-                element.style.transition = defaultTransition;
-            }, 1000);
-        }, 400);
-    }
-}
-
-
-//  Repeating Function
-setInterval(getCoordinates, 50);  
 

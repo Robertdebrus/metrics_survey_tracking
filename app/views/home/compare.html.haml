@@ -1,4 +1,3 @@
-= javascript_pack_tag 'gaze_data'
 
 #content
     .nicebox
@@ -55,5 +54,7 @@
                                     %div{:style=>"padding:5px"}= radio_button_tag "similarity", "4"
                     %br
                     
+                    
                     %div{:style=>"text-align:right"}= submit_tag "Submit", :id => "submit"
-                            
+= javascript_pack_tag 'getTextBoundaries.js'
+

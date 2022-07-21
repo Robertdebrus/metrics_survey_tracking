@@ -68,6 +68,12 @@ html, body{
   overflow:scroll;
   overflow-x:scroll; 
 }
+.column.left {
+  flex: 2;
+}
+.column.right {
+  flex: 1;
+}
 
 @media only screen and (max-width: 1000px) {
   .nicebox{
@@ -180,6 +186,7 @@ input[type="radio"] {
 .content_item{
     width:50%;
     max-width:0;
+    font-size: 2em;
     vertical-align: top;
     padding:10px;
     box-sizing: border-box;
@@ -187,11 +194,14 @@ input[type="radio"] {
 
 .function{
     padding:15px !important; 
-    font-size:1.2em; 
+    font-size:1.9em; 
     line-height:1.2em; 
     background-color:#f0f0f0 !important; 
     border-radius:10px; 
-    border: 2px solid #e7e7e7
+    border: 2px solid #e7e7e7;
+    flex-grow: 1;
+    white-space: inherit;
+    word-break: break-word;
 }
 
 .comment_box{

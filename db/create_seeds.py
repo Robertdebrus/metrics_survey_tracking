@@ -6,7 +6,7 @@ import csv
 print("Loading!")
 
 attendgru = {}
-with open("../../data/attendgru.txt", "r") as f:
+with open("predict-attendgru_E04_1656524573-attendrw-bilstm-2_E06_1656427755.txt.rand", "r") as f:
     for line in f:
         fid, text = line.split(maxsplit=1)
         fid = int(fid.strip())
@@ -15,7 +15,7 @@ with open("../../data/attendgru.txt", "r") as f:
         attendgru[fid] = text
 
 refs = {}
-with open ("../../data/com_pp.txt", "r") as f:
+with open ("com_pp.txt", "r") as f:
     for line in f:
         fid, text = line.split(maxsplit=1)
         fid = int(fid.strip()[:-1])
@@ -25,34 +25,39 @@ with open ("../../data/com_pp.txt", "r") as f:
 
 functions = {}
 names = {}
-with open ("../../data/functions.txt", "r") as f:
+with open ("functions.txt", "r") as f:
     text = ""
     name = ""
     fid = None
-
+    
     text_active = False
     name_captured = False
     l1 = ""
     l2 = f.readline()
     l3 = f.readline()
+    print(l1, l2, l3)
 
     for line in f:
         l1 = l2
         l2 = l3
         l3 = line
+        
+        
         if not text_active and len(l1)>2:
             #start new one
             text_active = True
             fid, l = l1.split(",", 1)
             fid = int(fid)
             text += l
-
             if len(l.split("(")[0].split())>0:
                 name = l.split("(")[0].split()[-1]
+                print(name)
                 names[fid] = name
                 name_captured = True
-
-        elif not(l1 == "\n" and l2=="\n" and l3==" \n"):
+            
+            print(name)
+        
+        elif not(l1 == "\n" and l2=="\n" and l3=="\n"):
             #add to text
             text += l1
             if not name_captured and len(l1.split("(")[0].split())>0:
@@ -65,10 +70,11 @@ with open ("../../data/functions.txt", "r") as f:
             name_captured = False
             if fid in attendgru:
                 functions[fid] = text
+            
             text = ""
             fid = None
 
-with open("seeds.csv", "w") as out:
+with open("seeds2.csv", "w") as out:
     fieldnames = "fid", "name", "ref", "attendgru", "function"
     writer = csv.DictWriter(out, fieldnames=fieldnames)
     writer.writeheader()

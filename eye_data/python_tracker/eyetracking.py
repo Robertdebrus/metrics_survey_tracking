@@ -1,14 +1,14 @@
 from signal import signal, SIGINT
 from sys import exit
 import tobii_research as tr
-import time, os, json, math
+import time, os, json, math, copy
 import cherrypy, cherrypy_cors
 from copy import deepcopy
 import pyautogui as pag
 from pynput import mouse
 from screeninfo import get_monitors
 from PIL import Image
-import tesserocr
+import tesserocr, subprocess, webbrowser
 
 
 api = tesserocr.PyTessBaseAPI()
@@ -19,8 +19,10 @@ screenHistory = {}
 eye_data = {}
 UID = -1
 FID = -1
+saving_data = False
+boxes_expired = True
 start_time = str(round(time.time())) 
-ready = false
+ready = False
 """
 Screen Resolution: 1920x1080 (16:9)
 Monitor Size: 22 inches 
@@ -54,23 +56,9 @@ def gaze_data_callback(gaze_data):
     
     global eye_data
     
-    """Uncomment the following lines to only save the gaze point from valid data""" 
-
-    #    lvalid = gaze_data['left_gaze_point_validity']
-    #    rvalid = gaze_data['right_gaze_point_validity']  
-    #        
-    #"""only save data if deemed valid by the eyetracker"""
-    #    if lvalid and rvalid and ready:
-    #        eye_data = {
-    #            'left_gaze_point' : gaze_data['left_gaze_point_on_display_area'],
-    #            'right_gaze_point' : gaze_data['right_gaze_point_on_display_area'],
-    #            'system_time_stamp' : gaze_data['system_time_stamp']
-    #        }
-
-    #        gaze_data['left_gaze_point_on_display_area'][0] = gaze_data['left_gaze_point_on_display_area'][0] * screen_coords['xmax'] 
-    #        gaze_data['left_gaze_point_on_display_area'][1] = gaze_data['left_gaze_point_on_display_area'][1] * screen_coords['ymax'] 
-    t = gaze_data['system_time_stamp']
-    eye_data[t] = gaze_data
+    if not saving_data:
+        t = gaze_data['system_time_stamp']
+        eye_data[t] = gaze_data
 
             
          
@@ -80,10 +68,10 @@ def gaze_data_callback(gaze_data):
 
 def on_click(x, y, button, pressed):
     global eye_data, start_time
-    if(pressed):
+    if(pressed and button_coords and not saving_data):
     
         point = [x ,y] 
-        if(in_box(button_coords, point)):
+        if(in_box(button_coords, point) ):
             print("Submit button clicked! Saving Data...")
             save_data_to_file({
                 'eye_data' : eye_data, 
@@ -91,6 +79,8 @@ def on_click(x, y, button, pressed):
                 'UID' : UID,
                 'FID' : FID,
             }, 'eye_coordinates')
+            global boxes_expired
+            boxes_expired = True
             start_time = str(round(time.time()))
             
 #def save_data_to_file(data):
@@ -108,7 +98,7 @@ def on_click(x, y, button, pressed):
 
 # Get points of interest, the submit button, the screen coodinates, and the area of the code box. 
 def get_POI():
-
+    global start_time
     
     start_time = str(round(time.time())) 
     if get_screen_with_button() and get_code():
@@ -157,9 +147,6 @@ def get_code():
     
     
     return True
-#    except:
-#        print("Code box coordinates not found: is the code box visible?")
-#        return False
     
 def in_box(box_coordinates, point):
     if (box_coordinates['xmin'] <= point[0] <= box_coordinates['xmax']) and (box_coordinates['ymin'] <= point[1] <= box_coordinates['ymax']):
@@ -178,7 +165,6 @@ def init_mouse():
 # when receiving a GET request. 
 #---------------------------------------------------------------
 class GazeDataController(object):
-    global UID, FID, ready
     @cherrypy.expose
     @cherrypy.tools.json_in()  # turn HTTP payload into an object; also checking the Content-Type header
     @cherrypy.tools.json_out()  # turn ``return``ed Python object into a JSON string; also setting corresponding Content-Type
@@ -191,12 +177,16 @@ class GazeDataController(object):
             cherrypy_cors.preflight(allowed_methods=['GET', 'POST'])
 
         if cherrypy.request.method == 'POST':
-            print("data posted from survey at:", cherrypy.request.json['time'])
-            ready = true
-            UID = cherrypy.request.json['UID']
-            FID = cherrypy.request.json['FID']
-            save_data_to_file(cherrypy.request.json, 'bounding_boxes');
-            return {'method': 'POST', 'payload': "data recieved"}
+            global boxes_expired
+            if boxes_expired:
+                #print("data posted from survey at:", cherrypy.request.json.keys())
+                global UID
+                UID = cherrypy.request.json['UID']
+                global FID
+                FID = cherrypy.request.json['FID']
+                save_data_to_file(cherrypy.request.json, 'bounding_boxes');
+                boxes_expired = False 
+            return {'method': 'POST', 'payload': ready}
         return {'method': 'non-POST'}
 
         return {'method': 'non-POST'}
@@ -208,13 +198,15 @@ class GazeDataController(object):
 #
 #---------------------------------------------------------------
 def save_data_to_file(data, location):
-    global start_time
-    fn = '../' + location + '/' + str(data['UID']) + "_" + str(data['FID']) + "_" + str(data['time']) + '.txt'
+    fn = '../' + location + '/' + str(UID) + "_" + str(FID) + "_" + str(data['time']) + '.txt'
     print(fn)
     f = open(fn, 'w+')
     # copy the data before saving it, since json.dump iterates over the data, 
     # to avoid issues if data is POSTed faster than it can write (unlikely)
-    json.dump(data.copy(), f)
+    global saving_data
+    saving_data = True
+    json.dump(copy.copy(data), f)
+    saving_data = False
     f.close()
 
     
@@ -245,8 +237,12 @@ def start_service():
     # gaze_data_callback is the callback function, the data is send as a dictionary
     # then loop infinitely until exited through CTRL-C
 #    try:
-    ready = get_POI()
-     
+
+    survey_page = subprocess.Popen(
+        ['rails', 's']
+    )
+    while not ready:
+        ready = get_POI()
     print("Initializing Eyetracker...")
     et.subscribe_to(tr.EYETRACKER_GAZE_DATA, gaze_data_callback, as_dictionary=True)
     print("Success! Eyetracking enabled on Java Survey at", time.strftime("%H:%M:%S", time.localtime()))

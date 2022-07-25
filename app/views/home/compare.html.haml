@@ -10,6 +10,8 @@
                         Function #{@user.current_function}/#{Function.all.count}
                     #div{:style=>"flex:1; text-align:right"}
                         FID #{@function.fid}
+                    #div{:style=>"visibility:hidden"}
+                        UID #{@user.id}
                 =link_to "View Instructions", :tutorial
             .row
                 .column.left

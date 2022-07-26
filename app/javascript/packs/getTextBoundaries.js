@@ -42,7 +42,7 @@ function getWordBoxes(parentElt) {
     // initialize the range
     var range = document.createRange();
     // split text on special characters
-    var words = parentElt.textContent.split(/[, \.\)\(_\|{}]/g);
+    var words = parentElt.textContent.split(/[, \.\)\(_\|{};]/g);
     // if there's no words, exit
     // otherwise, process the text
     if (words.length == 0) {

@@ -79,6 +79,8 @@ def on_click(x, y, button, pressed):
                 'UID' : UID,
                 'FID' : FID,
             }, 'eye_coordinates')
+            save_data_to_file(box_data, 'bounding_boxes')
+#            save_data_to_file(cherrypy.request.json, 'bounding_boxes');
             global boxes_expired
             boxes_expired = True
             start_time = str(round(time.time()))
@@ -184,7 +186,9 @@ class GazeDataController(object):
                 UID = cherrypy.request.json['UID']
                 global FID
                 FID = cherrypy.request.json['FID']
-                save_data_to_file(cherrypy.request.json, 'bounding_boxes');
+                global box_data
+                box_data = cherrypy.request.json
+#                save_data_to_file(cherrypy.request.json, 'bounding_boxes');
                 boxes_expired = False 
             return {'method': 'POST', 'payload': ready}
         return {'method': 'non-POST'}
@@ -200,14 +204,13 @@ class GazeDataController(object):
 def save_data_to_file(data, location):
     fn = '../' + location + '/' + str(UID) + "_" + str(FID) + "_" + str(data['time']) + '.txt'
     print(fn)
-    f = open(fn, 'w+')
-    # copy the data before saving it, since json.dump iterates over the data, 
-    # to avoid issues if data is POSTed faster than it can write (unlikely)
-    global saving_data
     saving_data = True
-    json.dump(copy.copy(data), f)
-    saving_data = False
-    f.close()
+    with open(fn, 'w+') as f
+        # copy the data before saving it, since json.dump iterates over the data, 
+        # to avoid issues if data is POSTed faster than it can write (unlikely)
+        global saving_data
+        json.dump(copy.copy(data), f)
+        saving_data = False
 
     
     

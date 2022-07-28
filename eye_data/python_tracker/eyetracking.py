@@ -8,10 +8,8 @@ import pyautogui as pag
 from pynput import mouse
 from screeninfo import get_monitors
 from PIL import Image
-import tesserocr, subprocess, webbrowser
+import subprocess
 
-
-api = tesserocr.PyTessBaseAPI()
 screen_coords = {}
 code_coords = {} 
 button_coords = {}
@@ -55,7 +53,6 @@ eye_data = {};
 def gaze_data_callback(gaze_data):
     
     global eye_data
-    
     if not saving_data:
         t = gaze_data['system_time_stamp']
         eye_data[t] = gaze_data
@@ -71,15 +68,20 @@ def on_click(x, y, button, pressed):
     if(pressed and button_coords and not saving_data):
     
         point = [x ,y] 
-        if(in_box(button_coords, point) ):
+        if(in_box(button_coords, point)):
             print("Submit button clicked! Saving Data...")
+            save_data_to_file({
+                'data' : box_data['data'], 
+                'time' : start_time, 
+                'UID' : UID,
+                'FID' : FID,
+            }, 'bounding_boxes')
             save_data_to_file({
                 'eye_data' : eye_data, 
                 'time' : start_time, 
                 'UID' : UID,
                 'FID' : FID,
             }, 'eye_coordinates')
-            save_data_to_file(box_data, 'bounding_boxes')
 #            save_data_to_file(cherrypy.request.json, 'bounding_boxes');
             global boxes_expired
             boxes_expired = True
@@ -204,11 +206,11 @@ class GazeDataController(object):
 def save_data_to_file(data, location):
     fn = '../' + location + '/' + str(UID) + "_" + str(FID) + "_" + str(data['time']) + '.txt'
     print(fn)
+    global saving_data
     saving_data = True
-    with open(fn, 'w+') as f
+    with open(fn, 'w+') as f:
         # copy the data before saving it, since json.dump iterates over the data, 
         # to avoid issues if data is POSTed faster than it can write (unlikely)
-        global saving_data
         json.dump(copy.copy(data), f)
         saving_data = False
 

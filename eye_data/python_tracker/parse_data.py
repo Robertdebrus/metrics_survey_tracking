@@ -61,15 +61,18 @@ for eye_fn in eye_files:
     eye_fn_dict[i_uid][i]= eye_fn
     i += 1
     
-#    print(eye_fn_dict)
+#print(eye_fn_dict)
     
 for uid in eye_fn_dict:
     for key in sorted(eye_fn_dict[uid]):
         eye_fn = eye_fn_dict[uid][key]
+        time = 0
+        nearest_box = ""
+        print(eye_fn)
         i_uid, i_fid, i_time, i_ext = re.split(r'_|\.', eye_fn)
         for box_fn in box_files:
             b_uid, b_fid, b_time, b_ext = re.split(r'_|\.', box_fn)
-            print(i_time > b_time)
+            
             if i_uid == b_uid and i_fid == b_fid: 
                 if int(i_time) >= int(b_time) > int(time):
                     time = b_time

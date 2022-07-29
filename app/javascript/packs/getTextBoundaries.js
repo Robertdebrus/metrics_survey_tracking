@@ -6,6 +6,7 @@ async function sendBoxes() {
         FID: wordBoxes.FID,
         UID: wordBoxes.UID
     }
+    console.log(request_payload)
     
     try {
         const resp = await fetch(
@@ -25,7 +26,7 @@ async function sendBoxes() {
         if(!(json_resp.payload)) {
             sendBoxes();
         } 
-        console.log(json_resp)  
+//        console.log(json_resp)  
       } catch (e) {
         console.warn('Exception: ' + e);
         sendBoxes();
@@ -113,6 +114,8 @@ function getBoundingClientRect(element) {
 const elements = document.querySelectorAll('div,code');
 console.log(elements)
 
+
+// Gets the bounding boxes of every word in a div, returns an array with an array for each div [[[words],[from],[div1], [[words],[from],[div2]]]]
 var unix = Math.round(+new Date()/1000);
 var wordBoxes = {};
 wordBoxes['time'] = unix;
@@ -136,8 +139,8 @@ for (var element of elements) {
                 }
             }
             
-            wordBoxes['words'][i++] = boxes[j]
         }
+        wordBoxes['words'][i++] = boxes
     }
     
 }

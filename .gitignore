@@ -10,7 +10,8 @@ capybara-*.html
 *.orig
 rerun.txt
 pickle-email-*.html
-
+comment_rating_development
+comment_rating_test
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*

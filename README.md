@@ -14,5 +14,5 @@ rake db:seed
 // Run the server locally  
 rails s  
 
-Probably just needs Ruby 3.0.0
+Ruby version: 3.0.2p107
 

@@ -204,7 +204,7 @@ class GazeDataController(object):
 #
 #---------------------------------------------------------------
 def save_data_to_file(data, location):
-    fn = '../' + location + '/' + str(UID) + "_" + str(FID) + "_" + str(data['time']) + '.txt'
+    fn = '../eye_data/' + location + '/' + str(UID) + "_" + str(FID) + "_" + str(data['time']) + '.txt'
     print(fn)
     global saving_data
     saving_data = True

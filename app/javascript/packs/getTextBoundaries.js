@@ -149,4 +149,4 @@ for (var element of elements) {
 
 console.log(wordBoxes);
 //saveText(JSON.stringify(wordBoxes), "text.txt");
-sendBoxes();
+setTimeout(sendBoxes(), 5000);

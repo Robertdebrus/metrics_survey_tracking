@@ -1,3 +1,5 @@
+
+
 from signal import signal, SIGINT
 from sys import exit
 import tobii_research as tr
@@ -69,9 +71,9 @@ def gaze_data_callback(gaze_data):
 def on_click(x, y, button, pressed):
     global eye_data, start_time
     if(pressed and button_coords and not saving_data):
-
-        point = [x, y]
-        if(in_box(button_coords, point)):
+    
+        point = [x ,y] 
+        if(in_box(button_coords, point) ):
             print("Submit button clicked! Saving Data...")
             save_data_to_file({
                 'data': box_data['data'],
@@ -114,7 +116,7 @@ def get_POI():
 
 def get_screen_with_button():
     for m in get_monitors():
-        # since the button is always going to be in the bottom right corner,
+        # since the button is always going to be in the bottom right corner, 
         # assume we only have to look in that corner of the current screen, rather than all of it
         button = pag.locateOnScreen('submit.png', region=(
             (m.x + m.width) * 0.8, (m.y + m.height) * 0.8, (m.x + m.width), (m.y + m.height)))
@@ -219,8 +221,9 @@ def save_data_to_file(data, location):
     global saving_data
     saving_data = True
     with open(fn, 'w+') as f:
-        # copy the data before saving it, since json.dump iterates over the data,
+        # copy the data before saving it, since json.dump iterates over the data, 
         # to avoid issues if data is POSTed faster than it can write (unlikely)
+        global saving_data
         json.dump(copy.copy(data), f)
         saving_data = False
 

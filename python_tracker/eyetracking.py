@@ -1,3 +1,5 @@
+
+
 from signal import signal, SIGINT
 from sys import exit
 import tobii_research as tr
@@ -113,6 +115,7 @@ def get_POI():
 
 def get_screen_with_button():
     for m in get_monitors():
+        #print(m)
         # since the button is always going to be in the bottom right corner, 
         # assume we only have to look in that corner of the current screen, rather than all of it
         button = pag.locateOnScreen('submit.png', region=((m.x + m.width) * 0.8, (m.y + m.height) * 0.8, (m.x + m.width), (m.y + m.height)))
@@ -204,14 +207,14 @@ class GazeDataController(object):
 #
 #---------------------------------------------------------------
 def save_data_to_file(data, location):
-    fn = '../' + location + '/' + str(UID) + "_" + str(FID) + "_" + str(data['time']) + '.txt'
+    fn = '../eyedata/' + location + '/' + str(UID) + "_" + str(FID) + "_" + str(data['time']) + '.txt'
     print(fn)
     global saving_data
     saving_data = True
     with open(fn, 'w+') as f:
-        # copy the data before saving it, since json.dump iterates over the data, 
-        # to avoid issues if data is POSTed faster than it can write (unlikely)
-        json.dump(copy.copy(data), f)
+        # copy the data before saving it, since json.dump iterates over the data,
+        # to avoid issues if the dictionary if modifed before it finishes writing
+        json.dump(copy.deepcopy(data), f)
         saving_data = False
 
     

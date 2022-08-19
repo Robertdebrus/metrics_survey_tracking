@@ -24,3 +24,8 @@ nvm install 16.16.0
 npm install yarn 
 // Run yarn 
 yarn 
+
+
+
+// Tobii eyetracking requires python3.8 
+python3.8 -m pip install [modulename]

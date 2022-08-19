@@ -22,10 +22,10 @@ https://github.com/nvm-sh/nvm#installing-and-updating
 nvm install 16.16.0
 // Install yarn  
 npm install yarn 
-// Run yarn 
+// Run yarn  
 yarn 
 
 
 
-// Tobii eyetracking requires python3.8 
+// Tobii eyetracking requires python3.8  
 python3.8 -m pip install [modulename]
